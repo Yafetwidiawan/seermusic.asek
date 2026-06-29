@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bikin Nada - Web App Area</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Tombol Mulai di Awal (Muncul saat background masih putih bersih) -->
+    <button id="btn-start" class="start-button">Mulai Sistem</button>
+
+    <!-- Kontainer Utama Aplikasi (Tetap berada di dalam area putih) -->
+    <div id="app-box" class="app-window hidden-app">
+        
+        <!-- Area Kamera Terlokalisasi (Ukuran Lebih Besar) -->
+        <div class="video-wrapper">
+            <video id="webcam" autoplay playsinline></video>
+            
+            <!-- Kotak Informasi Chord (Melayang di dalam area kamera) -->
+            <div id="chord-display" class="chord-box hidden">
+                <h1 id="chord-name">MAEN DI: -</h1>
+                <p class="tag-sub">Bass + Rhythm Active</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Panduan Petunjuk UI Tetap di Paling Bawah Luar Kotak (LOCKED) -->
+    <div class="footer-guide">
+        <p>Seer Imoed | Tekan Angka 1-7 (Major) atau Q-U (Minor) | Gunakan Tombol Panah Atas/Bawah untuk 7th Chord</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
