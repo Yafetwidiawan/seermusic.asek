@@ -1,4 +1,3 @@
-/* Reset Margin & Set Font Modern */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +5,6 @@
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Background Utama Menjadi Putih Bersih */
 body, html {
     width: 100%;
     height: 100%;
@@ -18,7 +16,6 @@ body, html {
     align-items: center;
 }
 
-/* --- TOMBOL MULAI --- */
 .start-button {
     padding: 15px 35px;
     font-size: 1.1rem;
@@ -38,45 +35,108 @@ body, html {
     background-color: #333333;
 }
 
-/* --- JENDELA APLIKASI (DI DALAM AREA PUTIH) --- */
 .app-window {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     transition: opacity 0.5s ease, transform 0.5s ease;
     z-index: 5;
 }
 
-/* Pembungkus Kamera Biar Ukurannya Lebih Gede */
+.main-layout-table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 25px 0px; 
+}
+
+.layout-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* --- PANEL KIRI --- */
+.side-panel {
+    width: 110px;
+    text-align: center;
+}
+
+.panel-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.sound-btn {
+    display: block;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 15px auto;
+    background: #ffffff;
+    border: 2px solid #eaeaea;
+    border-radius: 18px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    padding: 10px;
+}
+
+.sound-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    border-color: #bbb;
+}
+
+.sound-btn.active {
+    background: #000000;
+    border-color: #000000;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.sound-btn .emoji {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+}
+
+.sound-btn .label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #555;
+}
+
+.sound-btn.active .label {
+    color: #ffffff;
+}
+
+/* --- AREA KAMERA (UKURAN DIKECILKAN BIAR MUAT) --- */
 .video-wrapper {
     position: relative;
-    width: 1000px; /* Ukuran lebar baru ditingkatkan */
-    height: 562px; /* Ukuran tinggi baru yang proporsional 16:9 */
-    border-radius: 12px;
+    width: 720px; 
+    height: 405px; 
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
     background-color: #000; 
 }
 
-/* Kamera Menyesuaikan Ukuran Pembungkusnya Saja */
 #webcam {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scaleX(-1); /* Mirroring */
+    transform: scaleX(-1);
 }
 
-/* Kotak Teks Chord (Melayang di Kiri Atas Kotak Kamera) */
 .chord-box {
     position: absolute;
     top: 25px;
     left: 25px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 12px 20px;
-    border-radius: 6px;
-    max-width: 250px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 14px 22px;
+    border-radius: 8px;
+    z-index: 8;
     border-left: 5px solid #00ff00;
-    transition: all 0.1s ease;
 }
 
 .chord-box h1 {
@@ -86,32 +146,156 @@ body, html {
 }
 
 .chord-box .tag-sub {
-    color: #aaa;
+    color: #bbb;
     font-size: 0.75rem;
-    margin-top: 3px;
 }
 
-/* Helper Class untuk Menyembunyikan */
-.hidden {
+/* --- WADAH MONITOR CHORD GETAR DAN LENYAP --- */
+#particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9;
+}
+
+.floating-chord {
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    transition: bottom 0.5s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.4s ease;
     opacity: 0;
-    transform: translateY(-10px);
 }
 
-.hidden-app {
-    display: none !important;
+/* Animasi Getar konstan saat chord ditahan di tengah layar */
+@keyframes chord-shake {
+    0% { transform: translate(-50%, 0px); }
+    20% { transform: translate(-52%, -1px); }
+    40% { transform: translate(-48%, 1px); }
+    60% { transform: translate(-51%, 1px); }
+    80% { transform: translate(-49%, -1px); }
+    100% { transform: translate(-50%, 0px); }
+}
+
+.floating-chord.hold {
+    bottom: 45%; /* Ditahan di tengah */
+    opacity: 1;
+    animation: chord-shake 0.15s infinite linear;
+}
+
+.floating-chord.fade-away {
+    bottom: 85%; /* Lenyap ke atas */
     opacity: 0;
 }
 
-/* Bar Petunjuk Paling Bawah Luar */
+/* --- CANVAS AUDIO WAVEFORM --- */
+#visualizer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+    pointer-events: none;
+    z-index: 7;
+}
+
+/* --- PANEL KANAN: SONG CHORD SHEET --- */
+.right-panel {
+    width: 280px;
+}
+
+.sheet-box {
+    width: 100%;
+    height: 405px; /* Menyamakan tinggi dengan kamera */
+    background: #ffffff;
+    border: 2px dashed #cccccc;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.placeholder-view {
+    text-align: center;
+    padding: 20px;
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.placeholder-view p {
+    font-size: 0.8rem;
+    color: #777;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.browse-btn {
+    padding: 8px 18px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Gambar utuh terlihat tanpa terpotong */
+    background: #fdfdfd;
+}
+
+.remove-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    color: #ff3333;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.remove-btn:hover {
+    background: #ff3333;
+    color: #fff;
+}
+
+/* Helper Utilities */
+.hidden { opacity: 0; pointer-events: none; }
+.hidden-app { display: none !important; opacity: 0; }
+
 .footer-guide {
     position: absolute;
     bottom: 20px;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 8px 15px;
-    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 8px 18px;
+    border-radius: 8px;
 }
 
 .footer-guide p {
     color: #666;
     font-size: 0.8rem;
+    font-weight: 500;
 }
