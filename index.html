@@ -8,26 +8,70 @@
 </head>
 <body>
 
-    <!-- Tombol Mulai di Awal (Muncul saat background masih putih bersih) -->
+    <!-- Tombol Mulai di Awal -->
     <button id="btn-start" class="start-button">Mulai Sistem</button>
 
-    <!-- Kontainer Utama Aplikasi (Tetap berada di dalam area putih) -->
+    <!-- Kontainer Utama Aplikasi -->
     <div id="app-box" class="app-window hidden-app">
         
-        <!-- Area Kamera Terlokalisasi (Ukuran Lebih Besar) -->
-        <div class="video-wrapper">
-            <video id="webcam" autoplay playsinline></video>
+        <div class="main-layout-table">
+            <!-- PANEL KIRI: Pilihan Instrumen -->
+            <div class="layout-cell side-panel">
+                <div class="panel-title">INSTRUMEN</div>
+                <button class="sound-btn active" data-sound="piano" title="Piano / Synth Bell">
+                    <span class="emoji">🎹</span>
+                    <span class="label">Piano</span>
+                </button>
+                <button class="sound-btn" data-sound="guitar" title="Acoustic Guitar">
+                    <span class="emoji">🎸</span>
+                    <span class="label">Guitar</span>
+                </button>
+                <button class="sound-btn" data-sound="brass" title="Synth Brass">
+                    <span class="emoji">🎷</span>
+                    <span class="label">Brass</span>
+                </button>
+                <button class="sound-btn" data-sound="retro" title="Retro 8-Bit">
+                    <span class="emoji">👾</span>
+                    <span class="label">8-Bit</span>
+                </button>
+            </div>
             
-            <!-- Kotak Informasi Chord (Melayang di dalam area kamera) -->
-            <div id="chord-display" class="chord-box hidden">
-                <h1 id="chord-name">MAEN DI: -</h1>
-                <p class="tag-sub">Bass + Rhythm Active</p>
+            <!-- PANEL TENGAH: Kamera Terlokalisasi + Efek Partikel Melayang -->
+            <div class="layout-cell camera-cell">
+                <div class="video-wrapper">
+                    <video id="webcam" autoplay playsinline></video>
+                    
+                    <!-- Wadah Efek Animasi Partikel Teks Chord dari Bawah ke Atas -->
+                    <div id="particle-container"></div>
+
+                    <div id="chord-display" class="chord-box hidden">
+                        <h1 id="chord-name">PLAYING: -</h1>
+                        <p class="tag-sub">Bass + Rhythm Active</p>
+                    </div>
+
+                    <!-- Audio Waveform Visualizer Canvas (Melayang Lembut di Bawah Kamera) -->
+                    <canvas id="visualizer"></canvas>
+                </div>
+            </div>
+
+            <!-- PANEL KANAN: Song Chord Sheet (Upload Gambar) -->
+            <div class="layout-cell right-panel">
+                <div class="panel-title">CHORD SHEET</div>
+                <div class="sheet-box">
+                    <input type="file" id="image-uploader" accept="image/*" style="display: none;">
+                    <div id="upload-placeholder" class="placeholder-view">
+                        <span class="upload-icon">🖼️</span>
+                        <p>Upload Gambar Chord / Lirik</p>
+                        <button class="browse-btn">Pilih File</button>
+                    </div>
+                    <img id="sheet-preview" class="preview-img hidden" alt="Chord Sheet">
+                    <button id="btn-remove-sheet" class="remove-btn hidden">Ganti Gambar</button>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Panduan Petunjuk UI Tetap di Paling Bawah Luar Kotak (LOCKED) -->
     <div class="footer-guide">
         <p>Seer Imoed | Tekan Angka 1-7 (Major) atau Q-U (Minor) | Gunakan Tombol Panah Atas/Bawah untuk 7th Chord</p>
     </div>
